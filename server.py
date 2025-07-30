@@ -20,19 +20,22 @@ def ar_dashboard():
         regions = ['North', 'South', 'East', 'West']
         regional_data = []
         
+        
         for region in regions:
             base_amount = random.randint(25000, 55000)
             regional_data.append({
                 'region': region, 
                 'sales': base_amount
             })
-
+        
+        # Find the top performing region
+        top_region = max(regional_data, key=lambda x: x['sales'])
         
         return jsonify({
             'kpis': {
                 'total_sales': current_sales,
-                'growth_rate': growth_rate,
-                'active_customers': random.randint(1100, 1400)
+                'region_leader': top_region['region'],
+                'growth_rate': f"{growth_rate}%"
             },
             'regional_data': regional_data,
             'timestamp': datetime.now().isoformat()
