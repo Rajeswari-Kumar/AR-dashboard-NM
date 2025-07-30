@@ -1,6 +1,4 @@
 import os
-import json
-import csv
 from datetime import datetime
 from flask import Flask, jsonify
 from flask_cors import CORS
@@ -8,28 +6,21 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-def read_csv_data():
-    """Read CSV data without pandas"""
-    data = []
-    with open('sales_data.csv', 'r') as file:
-        reader = csv.DictReader(file)
-        for row in reader:
-            data.append({
-                'region': row['region'],
-                'month': int(row['month']),
-                'sales': int(row['sales'])
-            })
-    return data
-
 @app.route('/api/ar-dashboard')
 def ar_dashboard():
     try:
-        data = read_csv_data()
-        # Calculate KPIs without pandas
-        total_sales = sum(row['sales'] for row in data)
-        
+        # Mock data for AR dashboard
         return jsonify({
-            'kpis': {'total_sales': total_sales},
+            'kpis': {
+                'total_sales': 125000,
+                'growth_rate': 15.2,
+                'active_customers': 1250
+            },
+            'regional_data': [
+                {'region': 'North', 'sales': 45000},
+                {'region': 'South', 'sales': 38000},
+                {'region': 'East', 'sales': 42000}
+            ],
             'timestamp': datetime.now().isoformat()
         })
     except Exception as e:
